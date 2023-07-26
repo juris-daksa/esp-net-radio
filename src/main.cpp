@@ -76,7 +76,7 @@ U8G2_SH1106_128X64_NONAME_1_HW_I2C u8g2(U8G2_R0, /* reset=*/ U8X8_PIN_NONE);
 
 u8g2_uint_t offset;			// current offset for the scrolling text
 u8g2_uint_t width;			// pixel width of the scrolling text (must be lesser than 128 unless U8G2_16BIT is defined
-String text = "hello";	  // scroll this text from right to left
+String text = "ok, radio ";	  // scroll this text from right to left
 unsigned long screenUpdate = 0;
 
 // Audio library functions
