@@ -1,7 +1,6 @@
 
 #include <Arduino.h>
 #include <WiFi.h>
-#include <ESPAsyncWebServer.h>
 #include <AsyncTCP.h>
 #include "SPIFFS.h"
 #include "Audio.h"
@@ -10,27 +9,16 @@
 #include <U8g2lib.h>
 #include <Wire.h>
 
-// Create AsyncWebServer object on port 80
-AsyncWebServer server(80);
-
-// Search for parameter in HTTP POST request
-const char* PARAM_INPUT_1 = "ssid";
-const char* PARAM_INPUT_2 = "pass"; 
-const char* PARAM_INPUT_3 = "ip";
-
-// Acces Point name
-const char* apName = "WEBRADIO-SETUP";
-
-//Variables to save values from HTML form
-String ssid = "";
-String pass = "";
-String ip = "";
-
 // File paths to save input values permanently
 const char* ssidPath = "/ssid.txt";
 const char* passPath = "/pass.txt";
 const char* ipPath = "/ip.txt";
 const char* stationsPath = "/stations.csv";
+
+// Wifi credentials
+String ssid = "";
+String pass = "";
+String ip = "";
 
 IPAddress localIP;
 //IPAddress localIP(192, 168, 1, 200); // hardcoded
@@ -76,7 +64,7 @@ U8G2_SH1106_128X64_NONAME_1_HW_I2C u8g2(U8G2_R0, /* reset=*/ U8X8_PIN_NONE);
 
 u8g2_uint_t offset;			// current offset for the scrolling text
 u8g2_uint_t width;			// pixel width of the scrolling text (must be lesser than 128 unless U8G2_16BIT is defined
-String text = "hello";	  // scroll this text from right to left
+String text = "ok, radio ";	  // scroll this text from right to left
 unsigned long screenUpdate = 0;
 
 // Audio library functions
@@ -224,66 +212,6 @@ bool initWiFi() {
   Serial.println(WiFi.localIP());
 
   return true;
-}
-
-void webserverSetup_AP (){
-  // Connect to Wi-Fi network with SSID and password
-  Serial.println("Setting AP (Access Point)");
-  // NULL sets an open Access Point
-  WiFi.softAP(apName, NULL);
-
-  IPAddress IP = WiFi.softAPIP();
-  Serial.print("AP IP address: ");
-  Serial.println(IP); 
-
-  // Web Server Root URL
-  server.on("/", HTTP_GET, [](AsyncWebServerRequest *request){
-    request->send(SPIFFS, "/wifimanager.html", "text/html");
-  });
-  
-  server.serveStatic("/", SPIFFS, "/");
-  
-  server.on("/", HTTP_POST, [](AsyncWebServerRequest *request) {
-    int params = request->params();
-    for(int i=0;i<params;i++){
-      AsyncWebParameter* p = request->getParam(i);
-      if(p->isPost()){
-        // HTTP POST ssid value
-        if (p->name() == PARAM_INPUT_1) {
-          ssid = (char*)p->value().c_str();
-          Serial.print("SSID set to: ");
-          Serial.println(ssid);
-          // Write file to save value
-          writeFile(SPIFFS, ssidPath, ssid.c_str());
-        }
-
-        // HTTP POST pass value
-        if (p->name() == PARAM_INPUT_2) {
-          pass = (char*)p->value().c_str();
-          Serial.print("Password set to: ");
-          Serial.println(pass);
-          // Write file to save value
-          writeFile(SPIFFS, passPath, pass.c_str());
-        }
-
-        // HTTP POST ip value
-        if (p->name() == PARAM_INPUT_3) {
-          ip = (char*)p->value().c_str();
-          Serial.print("IP Address set to: ");
-          Serial.println(ip);
-          // Write file to save value
-          writeFile(SPIFFS, ipPath, ip.c_str());
-        }
-      }
-    }
-
-    String ip_addr = ip;
-    request->send(200, "text/plain", "Done. ESP will restart, connect to your router and go to IP address: " + ip_addr);
-    delay(3000);
-    ESP.restart();
-  });
-  
-  server.begin();
 }
 
 void proccessInput(String &str){
@@ -450,8 +378,6 @@ void setup() {
   u8g2.setFont(u8g2_font_profont12_tr );		// draw the current pixel width
   u8g2.setFontMode(0);		// enable transparent mode, which is faster
 
-
-
   initSPIFFS();   
   ssid = readFile(SPIFFS, ssidPath);
   pass = readFile(SPIFFS, passPath);
@@ -460,8 +386,6 @@ void setup() {
 
   if (initWiFi()){
     audio.connecttohost(isStationsLoaded? station_URLs[defaultStation]:"live.pieci.lv/live19-hq.mp3");
-  }else{
-    webserverSetup_AP();
   }
   
   Serial.println("\n--- END OF SETUP ---\n");
@@ -523,4 +447,3 @@ void loop() {
   }
 
 }
-
