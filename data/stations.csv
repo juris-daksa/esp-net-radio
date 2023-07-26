@@ -1,0 +1,20 @@
+NR,STATION_URL,STATION_NAME
+0,null,null
+1,https://stream.palanga.live:8443/palanga128.mp3,PALANGA STREET RADIO
+3,https://s3.radio.co/s216811754/listen,TIRKULTURA
+2,https://icecast.lyl.live/live,LYL RADIO
+17,https://cashmereradio.out.airtime.pro/cashmereradio_b,CASHMERE RADIO
+18,https://streaming.lahmacun.hu/listen/lahmacun_radio/radio.mp3,Lahmacun Radio
+6,https://listen-nme.sharp-stream.com/nme1.mp3,NME 1
+7,https://listen-nme.sharp-stream.com/nme2.mp3,NME 2
+4,https://5a44e5b800a41.streamlock.net/shoutcast/naba.stream/playlist.m3u8,RADIO NABA
+5,https://live.pieci.lv/live19-hq.mp3,LATVIJAS RADIO 5
+8,https://live.pieci.lv/live7-hq.mp3,LR5 LATVIESI
+9,stream.radiotev.lv:8002/radiov,RADIO TEV
+10,skonto.datucentrs.eu/mp3,Radio Skonto
+11,80.232.162.149:8000/gold96mp3,RADIO SWH GOLD
+12,live.radionemiers.lv/nemiers.aac,NEMIERS
+13,lr1mp1.latvijasradio.lv:8012,LATVIJAS RADIO 1
+14,lr2mp1.latvijasradio.lv:8002,LATVIJAS RADIO 2
+15,87.110.219.34:8000/swhmp3,RADIO SWH
+16,87.110.219.34:8000/rockmp3,RADIO SWH ROCK

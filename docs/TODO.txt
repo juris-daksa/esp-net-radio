@@ -1,0 +1,28 @@
+** Todo list **
+
+- features:
+    - telnet
+    - WiFiMan
+    - MQTT or Telnet through hass.io
+    - mean time from NTP
+    - config file/nvs config
+    - station-specific info of stream
+    - more stations
+
+
+
+- fixes:
+    - seperate functions (volume, presets)
+    - seperate source files
+    - debugprint function
+    - init flag for functions to be used during init
+
+
+- hardware:
+    - fix noise (check wiring)
+    - add amp/spkrs
+    - OLED
+    - Buttons
+    - case
+    - antenna
+    - volume knob
